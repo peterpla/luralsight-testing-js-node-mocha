@@ -1,0 +1,23 @@
+{
+  "name": "test-with-mocha",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peterpla/pluralsight-testing-js-node-mocha.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/peterpla/pluralsight-testing-js-node-mocha/issues"
+  },
+  "homepage": "https://github.com/peterpla/pluralsight-testing-js-node-mocha#readme",
+  "dependencies": {
+    "eslint": "^5.9.0",
+    "mocha": "^5.2.0"
+  }
+}
