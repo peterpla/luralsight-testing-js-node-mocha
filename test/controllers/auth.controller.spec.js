@@ -4,6 +4,7 @@ var expect = require('chai').expect;
 var should = require('chai').should();
 var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
+var sinon = require('sinon');
 
 chai.use(chaiAsPromised);
 chai.should();
@@ -15,8 +16,22 @@ describe('AuthController', function () {
     });
 
     describe('isAuthorized', function () {
-        it('Should return false if not authorized', function () {
+        var user = {};
+        beforeEach(function() {
+            user = {
+                roles: ['user'],
+                isAuthorized: function(neededRole) {
+                    return this.roles.indexOf(neededRole) >= 0;
+                }
+            }
+            sinon.spy(user, 'isAuthorized');
+            authController.setUser(user);
+        });
+
+        it.only('Should return false if not authorized', function () {
             var isAuth = authController.isAuthorized('admin');
+            console.log(user.isAuthorized);
+            user.isAuthorized.calledOnce.should.be.true;
             isAuth.should.be.false;
         })
         it('Should return true if authorized', function () {
@@ -40,6 +55,18 @@ describe('AuthController', function () {
         it('Should return false if not authorized', function () {
             // want "this" to refer to Mocha's context, so don't use arrow functions
             return authController.isAuthorizedPromise('admin').should.eventually.be.false;
+        })
+    })
+
+    describe('getIndex', function () {
+        it('should render index once', function () {
+            var req = {};
+            var res = {
+                render: sinon.spy()
+            };
+            authController.getIndex(req, res);
+            res.render.calledOnce.should.be.true;
+            res.render.firstCall.args[0].should.equal('index');
         })
     })
 
