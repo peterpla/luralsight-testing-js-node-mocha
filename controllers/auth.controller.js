@@ -27,7 +27,9 @@ function AuthController() {
     }
 
     function getIndex(req, res) {
-        res.render('index');
+        if(req.user.isAuthorized('admin')){
+            res.render('index');
+        } else res.render('error');
     }
 
     return { setRoles, setUser, isAuthorized, isAuthorizedAsync, isAuthorizedPromise, getIndex };

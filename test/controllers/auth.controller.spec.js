@@ -17,10 +17,10 @@ describe('AuthController', function () {
 
     describe('isAuthorized', function () {
         var user = {};
-        beforeEach(function() {
+        beforeEach(function () {
             user = {
                 roles: ['user'],
-                isAuthorized: function(neededRole) {
+                isAuthorized: function (neededRole) {
                     return this.roles.indexOf(neededRole) >= 0;
                 }
             }
@@ -28,7 +28,7 @@ describe('AuthController', function () {
             authController.setUser(user);
         });
 
-        it.only('Should return false if not authorized', function () {
+        it('Should return false if not authorized', function () {
             var isAuth = authController.isAuthorized('admin');
             console.log(user.isAuthorized);
             user.isAuthorized.calledOnce.should.be.true;
@@ -58,13 +58,26 @@ describe('AuthController', function () {
         })
     })
 
-    describe('getIndex', function () {
-        it('should render index once', function () {
-            var req = {};
+    describe.only('getIndex', function () {
+        var user = {};
+        beforeEach(function () {
+            user = {
+                roles: ['user'],
+                isAuthorized: function (neededRole) {
+                    return this.roles.indexOf(neededRole) >= 0;
+                }
+            }
+        });
+
+        it('should render index if authorized', function () {
+            var isAuth = sinon.stub(user, 'isAuthorized').returns(true);
+            var req = { user: user };
             var res = {
                 render: sinon.spy()
             };
             authController.getIndex(req, res);
+
+            isAuth.calledOnce.should.be.true;
             res.render.calledOnce.should.be.true;
             res.render.firstCall.args[0].should.equal('index');
         })
