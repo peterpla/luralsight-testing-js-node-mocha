@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/peterpla/pluralsight-testing-js-node-mocha#readme",
   "dependencies": {
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
     "eslint": "^5.9.0",
     "mocha": "^5.2.0"
   }
